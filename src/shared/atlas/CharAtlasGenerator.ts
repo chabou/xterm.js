@@ -20,9 +20,9 @@ export interface IOffscreenCanvas {
  * Generates a char atlas.
  * @param context The window or worker context.
  * @param canvasFactory A function to generate a canvas with a width or height.
- * @param request The config for the new char atlas.
+ * @param config The config for the new char atlas.
  */
-export function generateCharAtlas(context: Window, canvasFactory: (width: number, height: number) => HTMLCanvasElement | IOffscreenCanvas, config: ICharAtlasConfig): HTMLCanvasElement | Promise<ImageBitmap> {
+export function generateStaticCharAtlasTexture(context: Window, canvasFactory: (width: number, height: number) => HTMLCanvasElement | IOffscreenCanvas, config: ICharAtlasConfig): HTMLCanvasElement | Promise<ImageBitmap> {
   const cellWidth = config.scaledCharWidth + CHAR_ATLAS_CELL_SPACING;
   const cellHeight = config.scaledCharHeight + CHAR_ATLAS_CELL_SPACING;
   const canvas = canvasFactory(
@@ -100,10 +100,7 @@ export function generateCharAtlas(context: Window, canvasFactory: (width: number
   const charAtlasImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
   // Remove the background color from the image so characters may overlap
-  const r = parseInt(config.colors.background.substr(1, 2), 16);
-  const g = parseInt(config.colors.background.substr(3, 2), 16);
-  const b = parseInt(config.colors.background.substr(5, 2), 16);
-  clearColor(charAtlasImageData, r, g, b);
+  clearColor(charAtlasImageData, config.colors.background);
 
   return context.createImageBitmap(charAtlasImageData);
 }
@@ -111,7 +108,10 @@ export function generateCharAtlas(context: Window, canvasFactory: (width: number
 /**
  * Makes a partiicular rgb color in an ImageData completely transparent.
  */
-function clearColor(imageData: ImageData, r: number, g: number, b: number): void {
+export function clearColor(imageData: ImageData, color: string): void {
+  const r = parseInt(color.substr(1, 2), 16);
+  const g = parseInt(color.substr(3, 2), 16);
+  const b = parseInt(color.substr(5, 2), 16);
   for (let offset = 0; offset < imageData.data.length; offset += 4) {
     if (imageData.data[offset] === r &&
         imageData.data[offset + 1] === g &&
