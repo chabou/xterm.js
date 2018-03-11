@@ -107,8 +107,10 @@ export function generateStaticCharAtlasTexture(context: Window, canvasFactory: (
 
 /**
  * Makes a partiicular rgb color in an ImageData completely transparent.
+ * @returns True if the result is "empty", meaning all pixels are fully transparent.
  */
-export function clearColor(imageData: ImageData, color: string): void {
+export function clearColor(imageData: ImageData, color: string): boolean {
+  let isEmpty = true;
   const r = parseInt(color.substr(1, 2), 16);
   const g = parseInt(color.substr(3, 2), 16);
   const b = parseInt(color.substr(5, 2), 16);
@@ -117,8 +119,11 @@ export function clearColor(imageData: ImageData, color: string): void {
         imageData.data[offset + 1] === g &&
         imageData.data[offset + 2] === b) {
       imageData.data[offset + 3] = 0;
+    } else {
+      isEmpty = false;
     }
   }
+  return isEmpty;
 }
 
 function getFont(fontWeight: FontWeight, config: ICharAtlasConfig): string {
