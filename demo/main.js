@@ -82,7 +82,7 @@ optionElements.macOptionIsMeta.addEventListener('change', function () {
 optionElements.transparency.addEventListener('change', function () {
   var checked = optionElements.transparency.checked;
   term.setOption('allowTransparency', checked);
-  term.setOption('theme', checked ? {background: '#00000080'} : {});
+  term.setOption('theme', checked ? {background: 'rgba(0, 0, 0, 0.5)'} : {});
 });
 optionElements.cursorStyle.addEventListener('change', function () {
   term.setOption('cursorStyle', optionElements.cursorStyle.value);
