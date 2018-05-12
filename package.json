@@ -1,12 +1,8 @@
 {
-  "name": "xterm",
+  "name": "@chabou/xterm-hyper",
   "description": "Full xterm terminal, in your browser",
-  "version": "3.3.0",
-  "ignore": [
-    "demo",
-    "test",
-    ".gitignore"
-  ],
+  "version": "3.3.0-hyper.1",
+  "ignore": ["demo", "test", ".gitignore"],
   "main": "lib/Terminal.js",
   "types": "typings/xterm.d.ts",
   "repository": "https://github.com/xtermjs/xterm.js",
